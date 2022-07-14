@@ -467,6 +467,15 @@ void ObjectDetector::Predict(const std::vector<cv::Mat> imgs,
   std::chrono::duration<float> postprocess_diff =
       postprocess_end - postprocess_start;
   times->push_back(static_cast<double>(postprocess_diff.count() * 1000));
+  for (auto it = output_data_list_.begin(); it != output_data_list_.end(); it++)
+  {
+      if (*it != NULL)
+      {
+          delete* it;
+          *it = NULL;
+      }
+  }
+  output_data_list_.clear();
 }
 
 std::vector<int> GenerateColorMap(int num_class) {
